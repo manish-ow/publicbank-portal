@@ -77,7 +77,7 @@ export default function Home() {
         </div>
 
         <div className="mt-3 border-t border-white/15 pt-3">
-          <p className="text-sm text-white/90">Good morning, <strong>Very Delicious Restaurant</strong></p>
+          <p className="text-sm text-white/90"> <strong>eSolution Delta pte ltd.</strong></p>
         </div>
       </section>
 
@@ -99,7 +99,7 @@ export default function Home() {
       <section className="mt-5 grid gap-4 sm:grid-cols-3">
         <article className="pb-card p-4">
           <p className="text-[11px] font-semibold uppercase tracking-wider text-[color:var(--pb-soft)]">Current Cash</p>
-          <p className="pb-heading mt-1 text-lg font-bold">MYR 54,230.10</p>
+          <p className="pb-heading mt-1 text-lg font-bold">MYR 52,223.20</p>
           <p className="mt-1 text-xs text-[color:var(--pb-success)]">↑ 4.2% vs last month</p>
         </article>
         <article className="pb-card p-4">
