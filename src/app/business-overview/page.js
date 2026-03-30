@@ -20,7 +20,7 @@ const cashForecast = [
 ];
 
 const receivables = {
-  count: 99,
+  count: 7,
   total: 4800.5,
   customers: 15,
   upcoming: 62,
@@ -28,7 +28,7 @@ const receivables = {
 };
 
 const payables = {
-  count: 87,
+  count: 8,
   total: 4640.0,
 };
 
@@ -185,7 +185,6 @@ export default function BusinessOverviewPage() {
 
           <div className="mt-3 text-center">
             <p className="text-xs text-[color:var(--pb-soft)]">Your estimated cash balance for</p>
-            <p className="pb-heading mt-0.5 text-base font-bold">Very Delicious Restaurant</p>
             <p className="text-[11px] text-[color:var(--pb-soft)]">839-203-384-0</p>
           </div>
 
@@ -292,7 +291,7 @@ export default function BusinessOverviewPage() {
             <h2 className="pb-heading text-sm font-bold">Cash Balance and Forecast</h2>
             <span className="text-[color:var(--pb-soft)] text-sm">&rsaquo;</span>
           </div>
-          <p className="pb-heading mt-2 text-lg font-bold">MYR 54,230.10</p>
+          <p className="pb-heading mt-2 text-lg font-bold">MYR 52,223.20</p>
           <p className="mt-1 text-xs text-[color:var(--pb-soft)]">Great work! Your accounts position is on the rise.</p>
 
           <div className="mt-3 space-y-2">
