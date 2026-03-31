@@ -6,7 +6,6 @@ const navItems = [
   { label: "Payments", href: "/payments", icon: "💳" },
   { label: "Business Overview", href: "/business-overview", icon: "📈" },
   { label: "Trade Finance", href: "#", icon: "🌐" },
-  { label: "Financial Mgmt", href: "#", icon: "📊" },
 ];
 
 const transactions = [
