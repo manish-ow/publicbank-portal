@@ -9,7 +9,6 @@ const navItems = [
   { label: "Payments", href: "/payments", icon: "💳", active: true },
   { label: "Business Overview", href: "/business-overview", icon: "📈" },
   { label: "Trade Finance", href: "#", icon: "🌐" },
-  { label: "Financial Mgmt", href: "#", icon: "📊" },
 ];
 
 const quickActions = [
@@ -40,6 +39,32 @@ export default function PaymentsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorText, setErrorText] = useState("");
   const [paymentSubmitted, setPaymentSubmitted] = useState(false);
+  const [isPaying, setIsPaying] = useState(false);
+
+  const handleConfirmPayment = async () => {
+    if (!analysis) return;
+    setIsPaying(true);
+    try {
+      const amount = selectedOption === "payNow" ? optionSummary.payNow : optionSummary.payLater;
+      const res = await fetch("/api/payments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount,
+          currency: optionSummary.currency,
+          invoiceNumber: analysis.invoice.invoiceNumber,
+          vendorName: analysis.invoice.vendorName
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Payment failed");
+      setPaymentSubmitted(true);
+    } catch (err) {
+      setErrorText(err.message);
+    } finally {
+      setIsPaying(false);
+    }
+  };
 
   const optionSummary = useMemo(() => {
     if (!analysis?.paymentOptions) {
@@ -106,12 +131,12 @@ export default function PaymentsPage() {
             />
             <div>
               <span className="pb-heading text-base font-bold tracking-wide sm:text-lg">PUBLIC BANK</span>
-              <p className="text-xs text-white/70">Commercial Banking Portal</p>
+              <p className="text-xs text-white/70">eSolution delta pte ltd</p>
             </div>
           </div>
           <div className="flex items-center gap-5">
             <div className="text-right">
-              <p className="text-[11px] uppercase tracking-wider text-white/60">Preferred Account · 839-203-384-0</p>
+              <p className="text-[11px] uppercase tracking-wider text-white/60">Preferred Account · 312345678902</p>
               <p className="pb-heading text-xl font-bold tracking-tight sm:text-2xl">MYR 375,691.50</p>
             </div>
             <div className="pb-pill-tabs" style={{ width: "160px" }}>
@@ -290,10 +315,11 @@ export default function PaymentsPage() {
                   </p>
                   <button
                     type="button"
-                    className="pb-action pb-action-primary mt-2.5 w-full text-sm"
-                    onClick={() => setPaymentSubmitted(true)}
+                    disabled={isPaying}
+                    className="pb-action pb-action-primary mt-2.5 w-full text-sm disabled:opacity-60"
+                    onClick={handleConfirmPayment}
                   >
-                    Confirm {selectedOption === "payNow" ? "Pay Now" : "Pay in 30 Days"}
+                    {isPaying ? "Processing..." : `Confirm ${selectedOption === "payNow" ? "Pay Now" : "Pay in 30 Days"}`}
                   </button>
                 </div>
               )}
