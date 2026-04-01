@@ -40,7 +40,7 @@ export default function AccountAdminPage() {
                     return (
                         <div key={stat.label} className="pb-card p-4 flex flex-col items-center text-center">
                             <StatIcon className={`mb-2 ${stat.color}`} size={20} />
-                            <p className="text-xl font-bold text-slate-800">{stat.val}</p>
+                            <p className="pb-heading text-xl font-bold text-slate-800">{stat.val}</p>
                             <p className="text-[10px] font-semibold text-[color:var(--pb-soft)] uppercase">{stat.label}</p>
                         </div>
                     );
@@ -80,7 +80,7 @@ export default function AccountAdminPage() {
                                                 {member.name.split(" ").map(n => n[0]).join("")}
                                             </div>
                                             <div>
-                                                <p className="font-bold text-slate-800">{member.name}</p>
+                                                <p className="pb-heading font-bold text-slate-800">{member.name}</p>
                                                 <p className="text-[10px] text-[color:var(--pb-soft)]">{member.email}</p>
                                             </div>
                                         </div>
@@ -121,7 +121,7 @@ export default function AccountAdminPage() {
                             <ShieldCheck size={20} />
                         </div>
                         <div>
-                            <h3 className="text-sm font-bold text-slate-800">Security Settings</h3>
+                            <h3 className="pb-heading text-sm font-bold text-slate-800">Security Settings</h3>
                             <p className="text-xs text-[color:var(--pb-soft)]">2FA, session limits, and security logs.</p>
                         </div>
                     </div>
@@ -133,7 +133,7 @@ export default function AccountAdminPage() {
                             <Mail size={20} />
                         </div>
                         <div>
-                            <h3 className="text-sm font-bold text-slate-800">Notification Preferences</h3>
+                            <h3 className="pb-heading text-sm font-bold text-slate-800">Notification Preferences</h3>
                             <p className="text-xs text-[color:var(--pb-soft)]">Email and push notification alerts.</p>
                         </div>
                     </div>

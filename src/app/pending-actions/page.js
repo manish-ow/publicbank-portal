@@ -66,11 +66,11 @@ export default function PendingActionsPage() {
                                         <span className="text-[10px] text-[color:var(--pb-border)]">•</span>
                                         <span className="text-[10px] font-semibold text-[color:var(--pb-soft)]">{item.id}</span>
                                     </div>
-                                    <h3 className="text-sm font-bold text-slate-800">{item.title}</h3>
+                                    <h3 className="pb-heading text-sm font-bold text-slate-800">{item.title}</h3>
                                     <p className="mt-0.5 text-xs text-[color:var(--pb-soft)]">
                                         Requested by <span className="font-semibold">{item.requestor}</span> on {item.date}
                                     </p>
-                                    {item.amount && <p className="mt-2 text-base font-bold text-[color:var(--pb-red)]">{item.amount}</p>}
+                                    {item.amount && <p className="pb-heading mt-2 text-base font-bold text-[color:var(--pb-red)]">{item.amount}</p>}
                                     {item.details && <p className="mt-1 text-xs font-medium text-slate-600">{item.details}</p>}
                                 </div>
                             </div>

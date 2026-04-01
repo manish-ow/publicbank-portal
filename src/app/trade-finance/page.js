@@ -34,7 +34,7 @@ export default function TradeFinancePage() {
                     return (
                         <div key={f.name} className="pb-card p-5">
                             <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">{f.name}</h3>
-                            <p className="mt-2 text-lg font-bold text-slate-800">{f.limit}</p>
+                            <p className="pb-heading mt-2 text-lg font-bold text-slate-800">{f.limit}</p>
                             <div className="mt-4">
                                 <div className="flex justify-between text-[10px] font-semibold mb-1">
                                     <span className="text-[color:var(--pb-soft)]">Utilized</span>
@@ -78,13 +78,13 @@ export default function TradeFinancePage() {
                                         <td className="py-4 px-2 font-medium text-slate-600">{doc.type}</td>
                                         <td className="py-4 px-2">
                                             <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-bold ${doc.status === "Issued" ? "bg-emerald-50 text-emerald-700" :
-                                                    doc.status === "In Progress" ? "bg-blue-50 text-blue-700" : "bg-slate-50 text-slate-500"
+                                                doc.status === "In Progress" ? "bg-blue-50 text-blue-700" : "bg-slate-50 text-slate-500"
                                                 }`}>
                                                 {doc.status}
                                             </span>
                                         </td>
                                         <td className="py-4 px-2 text-slate-500">{doc.date}</td>
-                                        <td className="py-4 px-2 text-right font-bold text-slate-800">{doc.amount}</td>
+                                        <td className="py-4 px-2 text-right pb-heading font-bold text-slate-800">{doc.amount}</td>
                                         <td className="py-4 px-2 text-center">
                                             <button className="text-slate-400 hover:text-[color:var(--pb-red)]">
                                                 <Download size={16} />

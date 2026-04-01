@@ -47,20 +47,20 @@ export default function LendingPage() {
                                     <TrendingUp size={20} />
                                 </div>
                                 <div>
-                                    <h3 className="text-sm font-bold text-slate-800">{loan.type}</h3>
+                                    <h3 className="pb-heading text-sm font-bold text-slate-800">{loan.type}</h3>
                                     <p className="text-[10px] font-semibold text-[color:var(--pb-soft)]">{loan.id}</p>
                                 </div>
                             </div>
 
                             <div className="mt-6">
                                 <p className="text-[10px] font-bold text-[color:var(--pb-soft)] uppercase">Outstanding Balance</p>
-                                <p className="text-2xl font-bold text-slate-800">{loan.balance}</p>
+                                <p className="pb-heading text-2xl font-bold text-slate-800">{loan.balance}</p>
                             </div>
 
                             <div className="mt-6 grid grid-cols-2 gap-4 border-t border-slate-50 pt-4">
                                 <div>
                                     <p className="text-[10px] font-semibold text-[color:var(--pb-soft)]">Interest Rate</p>
-                                    <p className="text-xs font-bold text-slate-700">{loan.rate}</p>
+                                    <p className="pb-heading text-xs font-bold text-slate-700">{loan.rate}</p>
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-semibold text-[color:var(--pb-soft)]">Next Payment</p>
@@ -83,7 +83,7 @@ export default function LendingPage() {
                 <div className="grid gap-3 sm:grid-cols-3">
                     {lendingOptions.map((opt) => (
                         <button key={opt.title} className="pb-card flex flex-col p-5 text-left transition-all hover:border-[color:var(--pb-red)] group">
-                            <h3 className="text-sm font-bold text-slate-800 group-hover:text-[color:var(--pb-red)]">{opt.title}</h3>
+                            <h3 className="pb-heading text-sm font-bold text-slate-800 group-hover:text-[color:var(--pb-red)]">{opt.title}</h3>
                             <p className="mt-2 text-xs text-[color:var(--pb-soft)] flex-grow">{opt.desc}</p>
                             <div className="mt-4 flex items-center justify-between">
                                 <span className="text-[10px] font-bold text-slate-500">{opt.max}</span>
@@ -115,11 +115,11 @@ export default function LendingPage() {
                                         <ItemIcon size={16} />
                                     </div>
                                     <div>
-                                        <p className="text-xs font-bold text-slate-800">{item.loan}</p>
+                                        <p className="pb-heading text-xs font-bold text-slate-800">{item.loan}</p>
                                         <p className="text-[10px] text-[color:var(--pb-soft)]">{item.date}</p>
                                     </div>
                                 </div>
-                                <p className="text-sm font-bold text-slate-700">{item.amount}</p>
+                                <p className="pb-heading text-sm font-bold text-slate-700">{item.amount}</p>
                             </div>
                         );
                     })}
