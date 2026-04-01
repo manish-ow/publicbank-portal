@@ -29,6 +29,9 @@ const extractFallbackData = (text) => {
 
   const currency = compact.match(/\b(MYR|RM|USD|SGD|EUR)\b/i)?.[1]?.toUpperCase() ?? "MYR";
 
+  const vendorAccountNumber =
+    compact.match(/(?:acc(?:ount)?\.?\s*no\.?|iban|swift|bic)\s*[:\-]?\s*([a-z0-9 ]{8,34})/i)?.[1]?.trim() ?? "";
+
   return {
     vendorName,
     invoiceNumber,
@@ -36,6 +39,7 @@ const extractFallbackData = (text) => {
     dueDate,
     totalAmount,
     currency: currency === "RM" ? "MYR" : currency,
+    vendorAccountNumber,
   };
 };
 
@@ -61,7 +65,7 @@ const callGemini = async (apiKey, model, invoiceText, invoicePdfBase64) => {
     "Use the attached invoice PDF as the primary source of truth.",
     "Use OCR hint text only as a secondary hint.",
     "Return strict JSON with keys:",
-    "vendorName, invoiceNumber, invoiceDate, dueDate, currency, totalAmount, summary.",
+    "vendorName, invoiceNumber, invoiceDate, dueDate, currency, totalAmount, vendorAccountNumber, summary.",
     "Rules:",
     "- totalAmount must be a number",
     "- currency should be a 3-letter currency code like MYR",
@@ -126,6 +130,7 @@ const callGemini = async (apiKey, model, invoiceText, invoicePdfBase64) => {
     summary: payload.summary || "",
     currency: (payload.currency || "MYR").toUpperCase(),
     totalAmount: Number(payload.totalAmount) || 0,
+    vendorAccountNumber: payload.vendorAccountNumber || "",
   };
 };
 
@@ -137,6 +142,7 @@ const mergeInvoiceData = (base, override) => ({
   summary: override.summary || "",
   currency: override.currency || base.currency,
   totalAmount: override.totalAmount || base.totalAmount,
+  vendorAccountNumber: override.vendorAccountNumber || base.vendorAccountNumber,
 });
 
 const extractLocalPdfText = async (buffer) => {
@@ -264,6 +270,7 @@ export async function POST(request) {
         invoiceNumber: analysis.invoiceNumber,
         invoiceDate: analysis.invoiceDate,
         dueDate: analysis.dueDate,
+        vendorAccountNumber: analysis.vendorAccountNumber,
         currency: analysis.currency || "MYR",
         totalAmount: payNowAmount,
         summary: analysis.summary,

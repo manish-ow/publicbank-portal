@@ -9,6 +9,8 @@ import { UploadCloud, FileText } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Header from "@/components/Header";
 
+import { getAllAccounts } from "@/lib/data";
+
 const quickActions = [
   { label: "Pay Invoice", icon: "📄", description: "Upload & pay an invoice" },
   { label: "Transfer Funds", icon: "🔄", description: "Between accounts" },
@@ -17,10 +19,12 @@ const quickActions = [
 ];
 
 const recentPayments = [
-  { vendor: "Amazon Web Services", date: "4 Apr", amount: 1250.0, dueInDays: 3 },
-  { vendor: "Google Cloud", date: "6 Apr", amount: 840.0, dueInDays: 5 },
-  { vendor: "Office Supplies KL", date: "8 Apr", amount: 320.0, dueInDays: 7 },
+  { id: "op-1", vendor: "Amazon Web Services", date: "4 Apr", amount: 1250.0, dueInDays: 3 },
+  { id: "op-2", vendor: "Google Cloud", date: "6 Apr", amount: 840.0, dueInDays: 5 },
+  { id: "op-3", vendor: "Office Supplies KL", date: "8 Apr", amount: 320.0, dueInDays: 7 },
 ];
+
+const mockAccounts = getAllAccounts();
 
 const formatCurrency = (amount, currency = "MYR") => {
   const safeAmount = Number.isFinite(amount) ? amount : 0;
@@ -38,6 +42,36 @@ export default function PaymentsPage() {
   const [errorText, setErrorText] = useState("");
   const [paymentSubmitted, setPaymentSubmitted] = useState(false);
   const [isPaying, setIsPaying] = useState(false);
+  const [selectedAccountId, setSelectedAccountId] = useState(mockAccounts[0].id);
+
+  const selectedAccount = useMemo(() => {
+    return mockAccounts.find(acc => acc.id === selectedAccountId);
+  }, [selectedAccountId]);
+
+  const handlePayOutstanding = (payment) => {
+    // Populate analysis state to mimic an analyzed invoice
+    const mockAnalysis = {
+      source: "Manual Selection",
+      invoice: {
+        vendorName: payment.vendor,
+        invoiceNumber: `INV-${payment.id.toUpperCase()}`,
+        invoiceDate: payment.date + " 2026",
+        dueDate: "Within " + payment.dueInDays + " days",
+        vendorAccountNumber: `PBB-${Math.floor(1000000000 + Math.random() * 9000000000)}`,
+        totalAmount: payment.amount,
+        currency: "MYR"
+      },
+      paymentOptions: {
+        payNowAmount: payment.amount,
+        payIn30DaysAmount: Math.round(payment.amount * 1.025 * 100) / 100,
+        financingCost: Math.round(payment.amount * 0.025 * 100) / 100
+      }
+    };
+    setAnalysis(mockAnalysis);
+    setSelectedOption("payNow");
+    // Scroll to top to show payment options
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleConfirmPayment = async () => {
     if (!analysis) return;
@@ -51,7 +85,9 @@ export default function PaymentsPage() {
           amount,
           currency: optionSummary.currency,
           invoiceNumber: analysis.invoice.invoiceNumber,
-          vendorName: analysis.invoice.vendorName
+          vendorName: analysis.invoice.vendorName,
+          sourceAccountId: selectedAccount.id,
+          sourceAccountName: selectedAccount.nickname
         })
       });
       const data = await res.json();
@@ -215,6 +251,10 @@ export default function PaymentsPage() {
                   <dt className="text-[color:var(--pb-soft)]">Due Date</dt>
                   <dd className="font-semibold">{analysis.invoice.dueDate || "N/A"}</dd>
                 </div>
+                <div>
+                  <dt className="text-[color:var(--pb-soft)]">Vendor Account</dt>
+                  <dd className="font-semibold tracking-wider font-mono">{analysis.invoice.vendorAccountNumber || "N/A"}</dd>
+                </div>
                 <div className="sm:col-span-2">
                   <dt className="text-[color:var(--pb-soft)]">Invoice Total</dt>
                   <dd className="pb-heading text-xl font-bold">
@@ -222,6 +262,45 @@ export default function PaymentsPage() {
                   </dd>
                 </div>
               </dl>
+            </div>
+          ) : null}
+
+          {analysis ? (
+            <div className="mt-5 rounded-xl border border-[color:var(--pb-border)] bg-white p-5 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="pb-heading text-sm font-bold">Pay From</h3>
+                <div className="relative">
+                  <select
+                    value={selectedAccountId}
+                    onChange={(e) => setSelectedAccountId(e.target.value)}
+                    className="appearance-none rounded-lg border border-[color:var(--pb-border)] bg-[color:var(--pb-surface)] px-3 py-1.5 pr-8 text-xs font-semibold text-[color:var(--pb-ink)] focus:border-[color:var(--pb-red)] focus:outline-none cursor-pointer"
+                  >
+                    {mockAccounts.map(acc => (
+                      <option key={acc.id} value={acc.id}>
+                        {acc.nickname}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[color:var(--pb-soft)]">
+                    <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                      <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between p-3 rounded-lg bg-[color:var(--pb-surface)]/50 border border-[color:var(--pb-border)]">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-[color:var(--pb-soft)]">Source Account</p>
+                  <p className="text-sm font-bold mt-0.5">{selectedAccount.nickname}</p>
+                  <p className="text-[10px] text-[color:var(--pb-soft)]">{selectedAccount.number}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-[color:var(--pb-soft)]">Available Balance</p>
+                  <p className="pb-heading text-lg font-bold mt-0.5 tabular-nums">
+                    {formatCurrency(selectedAccount.balance, selectedAccount.currency)}
+                  </p>
+                </div>
+              </div>
             </div>
           ) : null}
         </article>
@@ -322,17 +401,26 @@ export default function PaymentsPage() {
                 <p className="text-sm font-semibold">{p.vendor}</p>
                 <p className="text-[11px] text-[color:var(--pb-soft)]">{p.date}</p>
               </div>
-              <div className="text-right">
-                <p className="text-sm font-semibold tabular-nums">-{formatCurrency(p.amount)}</p>
-                <span
-                  className="inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold"
-                  style={{
-                    background: p.dueInDays < 4 ? "#fef2f2" : "#fff7ed",
-                    color: p.dueInDays < 4 ? "var(--pb-red)" : "#c2410c",
-                  }}
+              <div className="text-right flex items-center gap-4">
+                <div>
+                  <p className="text-sm font-semibold tabular-nums">-{formatCurrency(p.amount)}</p>
+                  <span
+                    className="inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold"
+                    style={{
+                      background: p.dueInDays < 4 ? "#fef2f2" : "#fff7ed",
+                      color: p.dueInDays < 4 ? "var(--pb-red)" : "#c2410c",
+                    }}
+                  >
+                    Due in {p.dueInDays} days
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handlePayOutstanding(p)}
+                  className="rounded-lg bg-[color:var(--pb-red)] px-3 py-1.5 text-[10px] font-bold text-white hover:bg-[color:var(--pb-red-strong)] transition-all shadow-sm"
                 >
-                  Due in {p.dueInDays} days
-                </span>
+                  Pay
+                </button>
               </div>
             </div>
           ))}

@@ -15,45 +15,10 @@ import {
   Landmark
 } from "lucide-react";
 
+import { entities, calculateTotalLiquidity } from "@/lib/data";
+
 export default function Home() {
-  const entities = [
-    {
-      name: "MNC Holding Company",
-      type: "HQ ENTITY",
-      accounts: [
-        {
-          nickname: "MYR 1029-3382 Payroll",
-          number: "Current Account • Main Treasury",
-          balance: 425000.00,
-          currency: "MYR",
-          status: "ACTIVE",
-          icon: Building2
-        },
-        {
-          nickname: "USD 5520-1192 Ops Reserve",
-          number: "Money Market Deposit • Global Yield",
-          balance: 112000.00,
-          currency: "USD",
-          status: "ACTIVE",
-          icon: Globe
-        }
-      ]
-    },
-    {
-      name: "MNC Operating Company",
-      type: "OPS ENTITY",
-      accounts: [
-        {
-          nickname: "MYR 8839-4412 CapEx Fix",
-          number: "Fixed Deposit • Maturity 12-OCT-2024",
-          balance: 285000.00,
-          currency: "MYR",
-          status: "ACTIVE",
-          icon: Landmark
-        }
-      ]
-    }
-  ];
+  const totalLiquidity = calculateTotalLiquidity();
 
   return (
     <main className="portal-shell">
@@ -90,7 +55,9 @@ export default function Home() {
               <Image src="/brand/pb-logo-mark-white.svg" alt="" width={16} height={16} />
             </div>
           </div>
-          <p className="pb-heading mt-2 text-2xl font-bold">MYR 822,550.00</p>
+          <p className="pb-heading mt-2 text-2xl font-bold">
+            MYR {totalLiquidity.toLocaleString("en-MY", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </p>
           <div className="mt-2 flex items-center gap-1.5 text-xs text-[color:var(--pb-success)] font-semibold">
             <ArrowUpRight size={14} />
             <span>+4.2% from last month</span>

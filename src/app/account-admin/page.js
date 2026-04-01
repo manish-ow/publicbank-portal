@@ -5,10 +5,10 @@ import Header from "@/components/Header";
 import { UserPlus, Settings2, ShieldCheck, Mail, MoreVertical } from "lucide-react";
 
 const teamMembers = [
-    { name: "John Doe", role: "Super Admin", email: "john@esolution.com", status: "Active", access: ["Payments", "Approvals", "Admin"] },
-    { name: "Sarah Lee", role: "Finance Manager", email: "sarah@esolution.com", status: "Active", access: ["Payments", "Approvals"] },
-    { name: "Tan Ah Kow", role: "Associate", email: "tan@esolution.com", status: "Invited", access: ["Payments"] },
-    { name: "Muthu Raman", role: "Accountant", email: "muthu@esolution.com", status: "Active", access: ["Payments", "Reports"] },
+    { name: "John Doe", role: "Super Admin", email: "john@mnc.com", status: "Active", access: ["Payments", "Approvals", "Admin"] },
+    { name: "Sarah Lee", role: "Finance Manager", email: "sarah@mnc.com", status: "Active", access: ["Payments", "Approvals"] },
+    { name: "Tan Ah Kow", role: "Associate", email: "tan@mnc.com", status: "Invited", access: ["Payments"] },
+    { name: "Muthu Raman", role: "Accountant", email: "muthu@mnc.com", status: "Active", access: ["Payments", "Reports"] },
 ];
 
 export default function AccountAdminPage() {
