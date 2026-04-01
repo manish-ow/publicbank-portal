@@ -4,12 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const navItems = [
-  { label: "Home", href: "/", icon: "🏠" },
-  { label: "Payments", href: "/payments", icon: "💳" },
-  { label: "Business Overview", href: "/business-overview", icon: "📈", active: true },
-  { label: "Trade Finance", href: "#", icon: "🌐" },
-];
+import Navigation from "@/components/Navigation";
+import Header from "@/components/Header";
 
 const cashForecast = [
   { label: "Today", value: 24200 },
@@ -128,49 +124,9 @@ export default function BusinessOverviewPage() {
 
   return (
     <main className="portal-shell">
-      {/* ── Top bar ── */}
-      <section className="pb-topbar">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3">
-            <Image
-              src="/brand/pb-logo-mark-white.svg"
-              alt="Public Bank"
-              width={44}
-              height={44}
-              style={{ height: "auto" }}
-              priority
-            />
-            <div>
-              <span className="pb-heading text-base font-bold tracking-wide sm:text-lg">PUBLIC BANK</span>
-              <p className="text-xs text-white/70">Commercial Banking Portal</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-5">
-            <div className="text-right">
-              <p className="text-[11px] uppercase tracking-wider text-white/60">Preferred Account · 839-203-384-0</p>
-              <p className="pb-heading text-xl font-bold tracking-tight sm:text-2xl">MYR 375,691.50</p>
-            </div>
-            <div className="pb-pill-tabs" style={{ width: "160px" }}>
-              <div className="pb-pill text-xs">Personal</div>
-              <div className="pb-pill pb-pill-active text-xs">Business</div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Header />
 
-      {/* ── Navigation strip ── */}
-      <nav className="pb-nav-strip">
-        {navItems.map((item) => (
-          <Link
-            key={item.label}
-            href={item.href}
-            className={`pb-nav-item ${item.active ? "pb-nav-item-active" : ""}`}
-          >
-            <span className="text-base">{item.icon}</span>
-            <span>{item.label}</span>
-          </Link>
-        ))}
-      </nav>
+      <Navigation activeLabel="Business analytics" />
 
       {/* ── Cash Balance Forecast + Receivables/Payables ── */}
       <section className="mt-5 grid gap-5 lg:grid-cols-2">

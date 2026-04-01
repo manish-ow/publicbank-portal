@@ -4,12 +4,10 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const navItems = [
-  { label: "Home", href: "/", icon: "🏠" },
-  { label: "Payments", href: "/payments", icon: "💳", active: true },
-  { label: "Business Overview", href: "/business-overview", icon: "📈" },
-  { label: "Trade Finance", href: "#", icon: "🌐" },
-];
+import { UploadCloud, FileText } from "lucide-react";
+
+import Navigation from "@/components/Navigation";
+import Header from "@/components/Header";
 
 const quickActions = [
   { label: "Pay Invoice", icon: "📄", description: "Upload & pay an invoice" },
@@ -19,9 +17,9 @@ const quickActions = [
 ];
 
 const recentPayments = [
-  { vendor: "Meat & Vege Pte Ltd", date: "8 Mar", amount: 3100.0, status: "Completed" },
-  { vendor: "AWS Cloud Services", date: "5 Mar", amount: 2340.0, status: "Completed" },
-  { vendor: "Office Supplies KL", date: "1 Mar", amount: 860.0, status: "Pending" },
+  { vendor: "Amazon Web Services", date: "4 Apr", amount: 1250.0, dueInDays: 3 },
+  { vendor: "Google Cloud", date: "6 Apr", amount: 840.0, dueInDays: 5 },
+  { vendor: "Office Supplies KL", date: "8 Apr", amount: 320.0, dueInDays: 7 },
 ];
 
 const formatCurrency = (amount, currency = "MYR") => {
@@ -117,49 +115,9 @@ export default function PaymentsPage() {
 
   return (
     <main className="portal-shell">
-      {/* ── Top bar ── */}
-      <section className="pb-topbar">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3">
-            <Image
-              src="/brand/pb-logo-mark-white.svg"
-              alt="Public Bank"
-              width={44}
-              height={44}
-              style={{ height: "auto" }}
-              priority
-            />
-            <div>
-              <span className="pb-heading text-base font-bold tracking-wide sm:text-lg">PUBLIC BANK</span>
-              <p className="text-xs text-white/70">eSolution delta pte ltd</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-5">
-            <div className="text-right">
-              <p className="text-[11px] uppercase tracking-wider text-white/60">Preferred Account · 312345678902</p>
-              <p className="pb-heading text-xl font-bold tracking-tight sm:text-2xl">MYR 375,691.50</p>
-            </div>
-            <div className="pb-pill-tabs" style={{ width: "160px" }}>
-              <div className="pb-pill text-xs">Personal</div>
-              <div className="pb-pill pb-pill-active text-xs">Business</div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Header />
 
-      {/* ── Navigation strip ── */}
-      <nav className="pb-nav-strip">
-        {navItems.map((item) => (
-          <Link
-            key={item.label}
-            href={item.href}
-            className={`pb-nav-item ${item.active ? "pb-nav-item-active" : ""}`}
-          >
-            <span className="text-base">{item.icon}</span>
-            <span>{item.label}</span>
-          </Link>
-        ))}
-      </nav>
+      <Navigation activeLabel="Payments" />
 
       {/* ── Quick Actions ── */}
       <section className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -185,17 +143,38 @@ export default function PaymentsPage() {
           </p>
 
           <form onSubmit={handleAnalyzeInvoice} className="mt-4 space-y-3">
-            <div>
-              <label htmlFor="invoice" className="mb-1.5 block text-xs font-semibold">
-                Upload PDF Invoice
+            <div className="relative">
+              <label
+                htmlFor="invoice"
+                className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-[color:var(--pb-border)] bg-[color:var(--pb-surface)] p-6 transition-colors hover:border-[color:var(--pb-red)] hover:bg-red-50/30"
+              >
+                {!invoiceFile ? (
+                  <>
+                    <UploadCloud className="mb-2 h-8 w-8 text-[color:var(--pb-red)]" />
+                    <span className="text-sm font-semibold">Upload PDF Invoice</span>
+                    <span className="mt-1 text-[10px] text-[color:var(--pb-soft)]">Click or drag to select file</span>
+                  </>
+                ) : (
+                  <>
+                    <FileText className="mb-2 h-8 w-8 text-[color:var(--pb-success)]" />
+                    <span className="max-w-[200px] truncate text-sm font-semibold" title={invoiceFile.name}>
+                      {invoiceFile.name}
+                    </span>
+                    <span className="mt-1 text-[10px] text-[color:var(--pb-soft)]">File selected</span>
+                  </>
+                )}
+                <input
+                  id="invoice"
+                  type="file"
+                  accept="application/pdf"
+                  className="sr-only"
+                  onChange={(event) => {
+                    const file = event.target.files?.[0] ?? null;
+                    setInvoiceFile(file);
+                    setErrorText("");
+                  }}
+                />
               </label>
-              <input
-                id="invoice"
-                type="file"
-                accept="application/pdf"
-                className="pb-input text-sm"
-                onChange={(event) => setInvoiceFile(event.target.files?.[0] ?? null)}
-              />
             </div>
 
             <button
@@ -250,7 +229,7 @@ export default function PaymentsPage() {
         <article className="pb-card pb-card-flag p-5">
           <h2 className="pb-heading text-sm font-bold">Payment Options</h2>
           <p className="mt-1 text-xs text-[color:var(--pb-soft)]">
-            Choose immediate settlement or pay in 30 days with 5% financing.
+            Choose immediate settlement or pay in 30 days with 2.5% financing.
           </p>
 
           {!optionSummary ? (
@@ -279,7 +258,7 @@ export default function PaymentsPage() {
                 <p className="pb-heading mt-0.5 text-base font-bold">Pay in 30 Days</p>
                 <p className="mt-0.5 text-sm font-semibold">{formatCurrency(optionSummary.payLater, optionSummary.currency)}</p>
                 <p className="mt-0.5 text-xs text-[color:var(--pb-soft)]">
-                  Includes 5% financing cost of {formatCurrency(optionSummary.financingCost, optionSummary.currency)}.
+                  Includes 2.5% financing cost of {formatCurrency(optionSummary.financingCost, optionSummary.currency)}.
                 </p>
               </button>
 
@@ -331,7 +310,7 @@ export default function PaymentsPage() {
       {/* ── Recent Payments ── */}
       <section className="mt-5 pb-card p-5">
         <div className="flex items-center justify-between">
-          <h2 className="pb-heading text-sm font-bold">Recent Payments</h2>
+          <h2 className="pb-heading text-sm font-bold">Outstanding Payments</h2>
           <Link href="#" className="text-xs font-semibold text-[color:var(--pb-red)] hover:underline">
             View all &rsaquo;
           </Link>
@@ -348,11 +327,11 @@ export default function PaymentsPage() {
                 <span
                   className="inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold"
                   style={{
-                    background: p.status === "Completed" ? "#eefbf3" : "#fff7ed",
-                    color: p.status === "Completed" ? "var(--pb-success)" : "#c2410c",
+                    background: p.dueInDays < 4 ? "#fef2f2" : "#fff7ed",
+                    color: p.dueInDays < 4 ? "var(--pb-red)" : "#c2410c",
                   }}
                 >
-                  {p.status}
+                  Due in {p.dueInDays} days
                 </span>
               </div>
             </div>

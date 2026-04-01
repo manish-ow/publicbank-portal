@@ -183,10 +183,10 @@ const hasMeaningfulInvoiceData = (invoice) => {
 
   return Boolean(
     (invoice.vendorName && invoice.vendorName.trim()) ||
-      (invoice.invoiceNumber && invoice.invoiceNumber.trim()) ||
-      (invoice.invoiceDate && invoice.invoiceDate.trim()) ||
-      (invoice.dueDate && invoice.dueDate.trim()) ||
-      Number(invoice.totalAmount) > 0
+    (invoice.invoiceNumber && invoice.invoiceNumber.trim()) ||
+    (invoice.invoiceDate && invoice.invoiceDate.trim()) ||
+    (invoice.dueDate && invoice.dueDate.trim()) ||
+    Number(invoice.totalAmount) > 0
   );
 };
 
@@ -254,7 +254,7 @@ export async function POST(request) {
     }
 
     const payNowAmount = roundMoney(analysis.totalAmount);
-    const payIn30DaysAmount = roundMoney(payNowAmount * 1.05);
+    const payIn30DaysAmount = roundMoney(payNowAmount * 1.025);
     const financingCost = roundMoney(payIn30DaysAmount - payNowAmount);
 
     return Response.json({
