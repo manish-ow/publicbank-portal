@@ -18,7 +18,7 @@ import {
 export default function Home() {
   const entities = [
     {
-      name: "eSolution Delta Global -MNC Holding Company",
+      name: "MNC Holding Company",
       type: "HQ ENTITY",
       accounts: [
         {
@@ -40,7 +40,7 @@ export default function Home() {
       ]
     },
     {
-      name: "eSoltion Delta - Operating Company",
+      name: "MNC Operating Company",
       type: "OPS ENTITY",
       accounts: [
         {
