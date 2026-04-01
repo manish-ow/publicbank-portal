@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { calculateTotalLiquidity } from "@/lib/data";
 
 export default function Header() {
@@ -8,13 +7,12 @@ export default function Header() {
         <section className="pb-topbar">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-3">
-                    <Image
+                    <img
                         src="/brand/pb-logo-mark-white.svg"
                         alt="Public Bank"
                         width={44}
                         height={44}
                         style={{ height: "auto" }}
-                        priority
                     />
                     <div>
                         <span className="pb-heading text-base font-bold tracking-wide sm:text-lg">PUBLIC BANK</span>
@@ -33,7 +31,7 @@ export default function Header() {
             </div>
 
             <div className="mt-3 border-t border-white/15 pt-3">
-                <p className="text-sm text-white/90"> <strong>MNC Pte Ltd</strong></p>
+                <p className="text-sm text-white/90"><strong>MNC Pte Ltd</strong></p>
             </div>
         </section>
     );

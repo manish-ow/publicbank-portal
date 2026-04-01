@@ -80,95 +80,102 @@ export default function Home() {
       </section>
 
       {/* ── Entities & Accounts ── */}
-      <section className="mt-8 space-y-8">
+      <section className="mt-12 space-y-12">
         {entities.map((entity) => (
           <div key={entity.name}>
-            <div className="flex items-center justify-between border-b border-[color:var(--pb-border)] pb-2 mb-4">
-              <h2 className="pb-heading text-lg font-bold flex items-center gap-2">
+            <div className="flex items-center justify-between border-b border-[color:var(--pb-border)] pb-3 mb-6">
+              <h2 className="pb-heading text-xl font-bold tracking-tight text-[color:var(--pb-ink)] uppercase">
                 {entity.name}
               </h2>
-              <span className="rounded-full bg-[color:var(--pb-surface)] px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-widest text-[color:var(--pb-soft)]">
+              <span className="text-[10px] font-bold tracking-widest text-[color:var(--pb-soft)] bg-[color:var(--pb-surface)] px-2.5 py-1 rounded-md uppercase">
                 {entity.type}
               </span>
             </div>
 
-            <div className="space-y-4">
-              {/* Grouping by Currency for visual effect */}
-              <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-[#0d6b6b] mb-2 px-2">
-                <Wallet size={12} />
-                MYR Holdings
-              </div>
-
-              {entity.accounts.filter(a => a.currency === "MYR").map((account) => (
-                <div key={account.nickname} className="pb-card flex items-center justify-between p-4 hover:shadow-md transition-shadow group cursor-pointer">
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[color:var(--pb-surface)] text-[color:var(--pb-red)]">
-                      <account.icon size={20} />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold">{account.nickname}</p>
-                      <p className="text-[11px] text-[color:var(--pb-soft)]">{account.number}</p>
-                    </div>
-                  </div>
-                  <div className="text-right flex items-center gap-6">
-                    <div>
-                      <p className="pb-heading text-lg font-bold tabular-nums">
-                        {account.balance.toLocaleString("en-MY", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                      </p>
-                      <p className="text-[10px] text-[color:var(--pb-soft)] uppercase font-semibold">Available Balance</p>
-                    </div>
-                    <div className="flex flex-col items-end gap-1.5 min-w-[80px]">
-                      <span className="flex items-center gap-1 rounded bg-[#eefbf3] px-2 py-0.5 text-[9px] font-bold text-[color:var(--pb-success)]">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--pb-success)]"></span>
-                        {account.status}
-                      </span>
-                    </div>
+            <div className="pb-card overflow-hidden">
+              <div className="divide-y divide-[color:var(--pb-border)]">
+                {/* ── MYR Holdings Section ── */}
+                <div className="bg-white px-6 py-4">
+                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-[#0d6b6b]">
+                    <Wallet size={12} />
+                    MYR Holdings
                   </div>
                 </div>
-              ))}
 
-              {entity.accounts.some(a => a.currency === "USD") && (
-                <>
-                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-[#0d6b6b] mt-6 mb-2 px-2">
-                    <Globe size={12} />
-                    USD Holdings
-                  </div>
-                  {entity.accounts.filter(a => a.currency === "USD").map((account) => (
-                    <div key={account.nickname} className="pb-card flex items-center justify-between p-4 hover:shadow-md transition-shadow group cursor-pointer">
-                      <div className="flex items-center gap-4">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[color:var(--pb-surface)] text-[color:var(--pb-red)]">
-                          <account.icon size={20} />
-                        </div>
-                        <div>
-                          <p className="text-sm font-bold">{account.nickname}</p>
-                          <p className="text-[11px] text-[color:var(--pb-soft)]">{account.number}</p>
-                        </div>
+                {entity.accounts.filter(a => a.currency === "MYR").map((account) => (
+                  <div key={account.nickname} className="flex items-center justify-between p-6 bg-white hover:bg-[color:var(--pb-surface)]/30 transition-all group cursor-pointer">
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[color:var(--pb-surface)] text-[color:var(--pb-red)] shadow-sm">
+                        <account.icon size={22} />
                       </div>
-                      <div className="text-right flex items-center gap-6">
-                        <div>
-                          <p className="pb-heading text-lg font-bold tabular-nums">
-                            {account.balance.toLocaleString("en-MY", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                          </p>
-                          <p className="text-[10px] text-[color:var(--pb-soft)] uppercase font-semibold">Available Balance</p>
-                        </div>
-                        <div className="flex flex-col items-end gap-1.5 min-w-[80px]">
-                          <span className="flex items-center gap-1 rounded bg-[#eefbf3] px-2 py-0.5 text-[9px] font-bold text-[color:var(--pb-success)]">
-                            <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--pb-success)]"></span>
-                            {account.status}
-                          </span>
-                        </div>
+                      <div>
+                        <p className="text-base font-bold text-[color:var(--pb-ink)]">{account.nickname}</p>
+                        <p className="text-xs text-[color:var(--pb-soft)] font-medium">{account.number}</p>
                       </div>
                     </div>
-                  ))}
-                </>
-              )}
+                    <div className="text-right flex items-center gap-8">
+                      <div>
+                        <p className="pb-heading text-xl font-bold tabular-nums tracking-tight">
+                          {account.balance.toLocaleString("en-MY", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </p>
+                        <p className="text-[10px] text-[color:var(--pb-soft)] uppercase font-bold tracking-wider">Available Balance</p>
+                      </div>
+                      <div className="flex flex-col items-end gap-1.5 min-w-[90px]">
+                        <span className="flex items-center gap-1.5 rounded-full bg-[#eefbf3] px-3 py-1 text-[10px] font-bold text-[color:var(--pb-success)]">
+                          <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--pb-success)]"></span>
+                          {account.status}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {/* ── USD Holdings Section ── */}
+                {entity.accounts.some(a => a.currency === "USD") && (
+                  <>
+                    <div className="bg-[color:var(--pb-surface)]/20 px-6 py-4 border-t border-[color:var(--pb-border)]">
+                      <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-[#0d6b6b]">
+                        <Globe size={12} />
+                        USD Holdings
+                      </div>
+                    </div>
+                    {entity.accounts.filter(a => a.currency === "USD").map((account) => (
+                      <div key={account.nickname} className="flex items-center justify-between p-6 bg-white hover:bg-[color:var(--pb-surface)]/30 transition-all group cursor-pointer">
+                        <div className="flex items-center gap-4">
+                          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[color:var(--pb-surface)] text-[color:var(--pb-red)] shadow-sm">
+                            <account.icon size={22} />
+                          </div>
+                          <div>
+                            <p className="text-base font-bold text-[color:var(--pb-ink)]">{account.nickname}</p>
+                            <p className="text-xs text-[color:var(--pb-soft)] font-medium">{account.number}</p>
+                          </div>
+                        </div>
+                        <div className="text-right flex items-center gap-8">
+                          <div>
+                            <p className="pb-heading text-xl font-bold tabular-nums tracking-tight">
+                              {account.balance.toLocaleString("en-MY", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </p>
+                            <p className="text-[10px] text-[color:var(--pb-soft)] uppercase font-bold tracking-wider">Available Balance</p>
+                          </div>
+                          <div className="flex flex-col items-end gap-1.5 min-w-[90px]">
+                            <span className="flex items-center gap-1.5 rounded-full bg-[#eefbf3] px-3 py-1 text-[10px] font-bold text-[color:var(--pb-success)]">
+                              <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--pb-success)]"></span>
+                              {account.status}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                )}
+              </div>
             </div>
           </div>
         ))}
       </section>
 
       {/* ── Cash Position Insights ── */}
-      <section className="mt-12 bg-[color:var(--pb-surface)]/50 rounded-2xl p-8 border border-[color:var(--pb-border)] mb-8">
+      <section className="mt-12 pb-card p-8 mb-8">
         <div className="grid gap-8 sm:grid-cols-[1.2fr_1.8fr]">
           <div>
             <h2 className="pb-heading text-[11px] font-bold uppercase tracking-widest text-[color:var(--pb-soft)] mb-4">CASH POSITION INSIGHTS</h2>

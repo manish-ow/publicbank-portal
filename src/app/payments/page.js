@@ -227,7 +227,7 @@ export default function PaymentsPage() {
           ) : null}
 
           {analysis ? (
-            <div className="mt-4 rounded-xl border border-[color:var(--pb-border)] bg-[color:var(--pb-surface)] p-4">
+            <div className="mt-4 rounded-xl border border-[color:var(--pb-border)] bg-white p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h3 className="pb-heading text-sm font-bold">Invoice Details</h3>
                 <span className="rounded-full bg-white px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[color:var(--pb-soft)]">
@@ -288,7 +288,7 @@ export default function PaymentsPage() {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-lg bg-[color:var(--pb-surface)]/50 border border-[color:var(--pb-border)]">
+              <div className="flex items-center justify-between p-3 rounded-lg bg-white border border-[color:var(--pb-border)]">
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-wider text-[color:var(--pb-soft)]">Source Account</p>
                   <p className="text-sm font-bold mt-0.5">{selectedAccount.nickname}</p>
